@@ -33,7 +33,7 @@ ALX Polly is a modern, interactive polling application built with Next.js that a
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/alx-polly.git
+git clone https://github.com/wci-master/alx-polly.git
 cd alx-polly
 ```
 
