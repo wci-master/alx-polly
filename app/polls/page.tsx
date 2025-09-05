@@ -1,3 +1,8 @@
+/**
+ * @fileoverview Polls page component that displays a list of all available polls.
+ * This page allows users to view, create, and interact with polls.
+ */
+
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -9,32 +14,46 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { useToast } from '@/hooks/use-toast'
 import { Poll, pollService } from '@/services/poll-service'
 
-// No need to define Poll type here as we're importing it from the service
-
+/**
+ * Main polls page component that displays all available polls.
+ * Handles loading polls, error states, and notifications.
+ */
 export default function PollsPage() {
+  // State for storing polls data, loading state, and potential errors
   const [polls, setPolls] = useState<Poll[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const { toast } = useToast()
 
+  /**
+   * Effect hook to fetch polls when the component mounts.
+   * Handles success and error states with appropriate toast notifications.
+   */
   useEffect(() => {
     const fetchPolls = async () => {
       try {
+        // Fetch polls from the poll service
         const data = await pollService.getPolls()
         setPolls(data)
+        
+        // Show success notification
         toast({
           title: "Polls loaded",
           description: "Successfully loaded all available polls",
         })
       } catch (err) {
+        // Handle and log errors
         console.error('Failed to fetch polls:', err)
         setError('Failed to load polls. Please try again later.')
+        
+        // Show error notification
         toast({
           title: "Error",
           description: "Failed to load polls",
           variant: "destructive",
         })
       } finally {
+        // Update loading state regardless of outcome
         setIsLoading(false)
       }
     }
